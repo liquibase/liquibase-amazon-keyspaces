@@ -5,7 +5,7 @@ import liquibase.database.Database;
 import liquibase.exception.DatabaseException;
 import liquibase.executor.Executor;
 import liquibase.executor.ExecutorService;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.snapshot.DatabaseSnapshot;
 import liquibase.snapshot.jvm.ColumnSnapshotGenerator;
 import liquibase.statement.core.RawSqlStatement;
@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ColumnSnapshotGeneratorCassandra extends ColumnSnapshotGenerator {
+public class ColumnSnapshotGeneratorKeyspace extends ColumnSnapshotGenerator {
 
     @Override
     public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
-        if (database instanceof CassandraDatabase) {
+        if (database instanceof KeyspaceDatabase) {
             int priority = super.getPriority(objectType, database);
             return priority == 0 ? priority : priority + PRIORITY_DATABASE;
         }
@@ -64,7 +64,7 @@ public class ColumnSnapshotGeneratorCassandra extends ColumnSnapshotGenerator {
                 .filter(stringMap -> ((String)stringMap.get("COLUMN_NAME")).equalsIgnoreCase(example.getName()))
                 .collect(Collectors.toList());
         if (returnList.size() != 1) {
-            Scope.getCurrentScope().getLog(ColumnSnapshotGeneratorCassandra.class).warning(String.format(
+            Scope.getCurrentScope().getLog(ColumnSnapshotGeneratorKeyspace.class).warning(String.format(
                     "expecting exactly 1 column with name %s, got %s", example.getName(), returnList.size()));
             return null;
         } else {

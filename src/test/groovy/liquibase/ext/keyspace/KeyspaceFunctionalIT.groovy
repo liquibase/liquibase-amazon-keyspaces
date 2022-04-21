@@ -5,16 +5,45 @@ import liquibase.LabelExpression
 import liquibase.Liquibase
 import liquibase.change.CheckSum
 import liquibase.changelog.ChangeLogHistoryServiceFactory
+import liquibase.ext.keyspace.database.KeyspaceDatabase
 import liquibase.integration.commandline.CommandLineUtils
 import liquibase.resource.ClassLoaderResourceAccessor
 import spock.lang.Specification
 
 
-class CassandraFunctionalIT extends Specification {
+class KeyspaceFunctionalIT extends Specification {
 
-    def url = "jdbc:cassandra://localhost:9042/betterbotz;DefaultKeyspace=betterbotz"
+    def url = "jdbc:cassandra://cassandra.us-east-1.amazonaws.com:9142;DefaultKeyspace=betterbotz;UID=<username>;PWD=<password>;SSLMode=1;AuthMech=1;SSLTruststorePath=./cassandra_truststore.jks;SSLTrustStorePwd=testpasswd;LogLevel=6;TunableConsistency=6;"
     def defaultSchemaName = "betterbotz"
-    def database = CommandLineUtils.createDatabaseObject(new ClassLoaderResourceAccessor(), url, null, null, null, null, defaultSchemaName, false, false, null, null, null, null, null, null, null)
+    def username = System.getProperty("keyspace_username")
+    def password = System.getProperty("keyspace_password")
+    def database = CommandLineUtils.createDatabaseObject(new ClassLoaderResourceAccessor(), url, username, password, null, null, defaultSchemaName, false, false, null, null, null, null, null, null, null)
+
+    def "parseKeyspaceUrl"() {
+        expect:
+        def driver = new KeyspaceDatabase().getDefaultDriver(url)
+        driver == "com.simba.cassandra.jdbc42.Driver"
+    }
+
+    def "createKeyspaceConnection"() {
+        expect:
+        database.getShortName() == "keyspace"
+    }
+
+    def "warnKeyspaceDoesNotExist"() {
+        when:
+        def ExceptionMessage = ""
+        // incorrect_url is set to wrong region.
+        def incorrect_url = "jdbc:cassandra://cassandra.us-east-2.amazonaws.com:9142;DefaultKeyspace=betterbotz;SSLMode=1;AuthMech=1;UID=ZacClifton-at-048962136615;PWD=Tb8TV8hA1t+DhyrzRl85OwH/fR97pPhy3z1zv7K78AA=;SSLTruststorePath=./cassandra_truststore.jks;SSLTrustStorePwd=testpasswd;LogLevel=6;TunableConsistency=6;"
+        def keyspace_name = "betterbotz"
+        try {
+            CommandLineUtils.createDatabaseObject(new ClassLoaderResourceAccessor(), incorrect_url, null, null, null, null, defaultSchemaName, false, false, null, null, null, null, null, null, null)
+        } catch (Exception e) {
+            ExceptionMessage = e.message
+        }
+        then:
+        assert ExceptionMessage.contains(keyspace_name)
+    }
 
     def "calculateCheckSum"() {
         when:
@@ -30,7 +59,6 @@ class CassandraFunctionalIT extends Specification {
 
         when:
         def liquibase = new Liquibase("test-changelog.xml", new ClassLoaderResourceAccessor(), database)
-        def stringWriter = new StringWriter()
         liquibase.changeLogSync((Contexts) null, (LabelExpression) null)
         then:
         database != null
@@ -51,7 +79,6 @@ class CassandraFunctionalIT extends Specification {
 //    }
 
     def "update"() {
-
         when:
         def liquibase = new Liquibase("test-changelog.xml", new ClassLoaderResourceAccessor(), database)
         liquibase.update((Contexts) null)
@@ -102,19 +129,19 @@ class CassandraFunctionalIT extends Specification {
 
     }
 
-    def "rollbackCount1"() {
-
-        when:
-            def liquibase = new Liquibase("rollback.changelog.sql", new ClassLoaderResourceAccessor(), database)
-            liquibase.update((Contexts) null)
-            def output = new StringWriter()
-            liquibase.rollback(1, (String) null, output)
-        then:
-            assert output.toString().trim().contains("DROP TABLE betterbotz.TESTME5")
-        when:
-            liquibase.rollback(1, (String) null)
-        then:
-            database != null
-    }
+//    def "rollbackCount1"() {
+//
+//        when:
+//            def liquibase = new Liquibase("rollback.changelog.sql", new ClassLoaderResourceAccessor(), database)
+//            liquibase.update((Contexts) null)
+//            def output = new StringWriter()
+//            liquibase.rollback(1, (String) null, output)
+//        then:
+//            assert output.toString().trim().contains("DROP TABLE betterbotz.TESTME5")
+//        when:
+//            liquibase.rollback(1, (String) null)
+//        then:
+//            database != null
+//    }
 
 }

@@ -7,7 +7,7 @@ import liquibase.database.Database;
 import liquibase.exception.DatabaseException;
 import liquibase.executor.Executor;
 import liquibase.executor.ExecutorService;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.snapshot.*;
 import liquibase.snapshot.jvm.TableSnapshotGenerator;
 import liquibase.statement.core.RawSqlStatement;
@@ -19,11 +19,11 @@ import liquibase.util.StringUtil;
 import java.util.List;
 import java.util.Map;
 
-public class TableSnapshotGeneratorCassandra extends TableSnapshotGenerator {
+public class TableSnapshotGeneratorKeyspace extends TableSnapshotGenerator {
 
     @Override
     public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
-        if (database instanceof CassandraDatabase) {
+        if (database instanceof KeyspaceDatabase) {
             int priority = super.getPriority(objectType, database);
             return priority == 0 ? priority : priority + PRIORITY_DATABASE;
         }
@@ -62,7 +62,7 @@ public class TableSnapshotGeneratorCassandra extends TableSnapshotGenerator {
         List<Map<String, ?>> returnList = Scope.getCurrentScope().getSingleton(ExecutorService.class)
                 .getExecutor("jdbc", database).queryForList(new RawSqlStatement(query));
         if (returnList.size() != 1) {
-            Scope.getCurrentScope().getLog(TableSnapshotGeneratorCassandra.class).warning(String.format(
+            Scope.getCurrentScope().getLog(TableSnapshotGeneratorKeyspace.class).warning(String.format(
                     "expecting exactly 1 table with name %s, got %s", example.getName(), returnList.size()));
             return null;
         } else {

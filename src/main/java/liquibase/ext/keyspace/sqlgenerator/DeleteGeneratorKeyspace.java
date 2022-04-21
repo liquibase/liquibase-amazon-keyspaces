@@ -1,14 +1,14 @@
 package liquibase.ext.keyspace.sqlgenerator;
 
 import liquibase.database.Database;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.DeleteGenerator;
 import liquibase.statement.core.DeleteStatement;
 
-public class DeleteGeneratorCassandra extends DeleteGenerator {
+public class DeleteGeneratorKeyspace extends DeleteGenerator {
 
 	@Override
 	public int getPriority() {
@@ -17,7 +17,7 @@ public class DeleteGeneratorCassandra extends DeleteGenerator {
 
 	@Override
 	public boolean supports(DeleteStatement statement, Database database) {
-		return super.supports(statement, database) && database instanceof CassandraDatabase;
+		return super.supports(statement, database) && database instanceof KeyspaceDatabase;
 	}
 
 	@Override

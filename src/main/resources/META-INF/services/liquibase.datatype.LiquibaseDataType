@@ -1,1 +1,1 @@
-liquibase.ext.keyspace.datatype.CassandraTextDataType
+liquibase.ext.keyspace.datatype.KeyspaceTextDataType

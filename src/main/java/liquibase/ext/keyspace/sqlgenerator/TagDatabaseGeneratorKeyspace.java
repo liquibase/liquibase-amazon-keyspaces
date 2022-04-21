@@ -8,14 +8,14 @@ import liquibase.database.Database;
 import liquibase.database.ObjectQuotingStrategy;
 import liquibase.datatype.DataTypeFactory;
 import liquibase.exception.DatabaseException;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.TagDatabaseGenerator;
 import liquibase.statement.core.TagDatabaseStatement;
 
-public class TagDatabaseGeneratorCassandra extends TagDatabaseGenerator {
+public class TagDatabaseGeneratorKeyspace extends TagDatabaseGenerator {
 
 	@Override
 	public int getPriority() {
@@ -24,7 +24,7 @@ public class TagDatabaseGeneratorCassandra extends TagDatabaseGenerator {
 
 	@Override
 	public boolean supports(TagDatabaseStatement statement, Database database) {
-		return database instanceof CassandraDatabase;
+		return database instanceof KeyspaceDatabase;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class TagDatabaseGeneratorCassandra extends TagDatabaseGenerator {
 			String tagEscaped = DataTypeFactory.getInstance().fromObject(statement.getTag(), database).objectToSql(statement.getTag(), database);
 			
 
-			Statement statement1 = ((CassandraDatabase) database).getStatement();
+			Statement statement1 = ((KeyspaceDatabase) database).getStatement();
 			//Query to get last executed changeset date
 			String query1 = "SELECT TOUNIXTIMESTAMP(MAX(DATEEXECUTED)) as DATEEXECUTED FROM " + 
 					database.escapeTableName(database.getLiquibaseCatalogName(), database.getLiquibaseSchemaName(), "databasechangelog");

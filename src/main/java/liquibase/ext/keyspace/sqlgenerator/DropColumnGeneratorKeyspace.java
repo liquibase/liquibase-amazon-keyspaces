@@ -1,7 +1,7 @@
 package liquibase.ext.keyspace.sqlgenerator;
 
 import liquibase.database.Database;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
@@ -11,7 +11,7 @@ import liquibase.statement.core.DropColumnStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DropColumnGeneratorCassandra extends DropColumnGenerator {
+public class DropColumnGeneratorKeyspace extends DropColumnGenerator {
 
     @Override
     public int getPriority() {
@@ -20,7 +20,7 @@ public class DropColumnGeneratorCassandra extends DropColumnGenerator {
 
     @Override
     public boolean supports(DropColumnStatement statement, Database database) {
-        return database instanceof CassandraDatabase;
+        return database instanceof KeyspaceDatabase;
     }
 
     @Override

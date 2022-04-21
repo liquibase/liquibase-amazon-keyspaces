@@ -1,1 +1,1 @@
-liquibase.ext.keyspace.changelog.CassandraChangeLogHistoryService
+liquibase.ext.keyspace.changelog.KeyspaceChangeLogHistoryService

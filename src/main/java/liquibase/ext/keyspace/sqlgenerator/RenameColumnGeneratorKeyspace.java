@@ -1,14 +1,14 @@
 package liquibase.ext.keyspace.sqlgenerator;
 
 import liquibase.database.Database;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.RenameColumnGenerator;
 import liquibase.statement.core.RenameColumnStatement;
 
-public class RenameColumnGeneratorCassandra extends RenameColumnGenerator {
+public class RenameColumnGeneratorKeyspace extends RenameColumnGenerator {
     @Override
     public int getPriority() {
         return PRIORITY_DATABASE;
@@ -16,7 +16,7 @@ public class RenameColumnGeneratorCassandra extends RenameColumnGenerator {
 
     @Override
     public boolean supports(RenameColumnStatement statement, Database database) {
-        return database instanceof CassandraDatabase;
+        return database instanceof KeyspaceDatabase;
     }
 
     @Override

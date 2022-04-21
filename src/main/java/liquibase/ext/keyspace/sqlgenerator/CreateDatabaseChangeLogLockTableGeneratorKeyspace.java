@@ -1,7 +1,7 @@
 package liquibase.ext.keyspace.sqlgenerator;
 
 import liquibase.database.Database;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.sql.Sql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.SqlGeneratorFactory;
@@ -9,7 +9,7 @@ import liquibase.sqlgenerator.core.CreateDatabaseChangeLogLockTableGenerator;
 import liquibase.statement.core.CreateDatabaseChangeLogLockTableStatement;
 import liquibase.statement.core.RawSqlStatement;
 
-public class CreateDatabaseChangeLogLockTableGeneratorCassandra extends CreateDatabaseChangeLogLockTableGenerator {
+public class CreateDatabaseChangeLogLockTableGeneratorKeyspace extends CreateDatabaseChangeLogLockTableGenerator {
 
     @Override
     public int getPriority() {
@@ -18,7 +18,7 @@ public class CreateDatabaseChangeLogLockTableGeneratorCassandra extends CreateDa
 
     @Override
     public boolean supports(CreateDatabaseChangeLogLockTableStatement statement, Database database) {
-        return super.supports(statement, database) && database instanceof CassandraDatabase;
+        return super.supports(statement, database) && database instanceof KeyspaceDatabase;
     }
 
     @Override

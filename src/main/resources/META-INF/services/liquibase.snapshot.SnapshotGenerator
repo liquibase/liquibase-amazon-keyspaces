@@ -1,4 +1,3 @@
-liquibase.ext.keyspace.snapshot.TableSnapshotGeneratorCassandra
-liquibase.ext.keyspace.snapshot.ColumnSnapshotGeneratorCassandra
-liquibase.ext.keyspace.snapshot.UniqueConstraintSnapshotGeneratorCassandra
-liquibase.ext.keyspace.snapshot.IndexSnapshotGeneratorCassandra
+liquibase.ext.keyspace.snapshot.TableSnapshotGeneratorKeyspace
+liquibase.ext.keyspace.snapshot.ColumnSnapshotGeneratorKeyspace
+liquibase.ext.keyspace.snapshot.UniqueConstraintSnapshotGeneratorKeyspace

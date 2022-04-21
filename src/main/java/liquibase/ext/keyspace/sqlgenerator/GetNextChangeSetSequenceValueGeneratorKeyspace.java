@@ -1,11 +1,11 @@
 package liquibase.ext.keyspace.sqlgenerator;
 
 import liquibase.database.Database;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.sqlgenerator.core.GetNextChangeSetSequenceValueGenerator;
 import liquibase.statement.core.GetNextChangeSetSequenceValueStatement;
 
-public class GetNextChangeSetSequenceValueGeneratorCassandra extends GetNextChangeSetSequenceValueGenerator {
+public class GetNextChangeSetSequenceValueGeneratorKeyspace extends GetNextChangeSetSequenceValueGenerator {
 
     @Override
     public int getPriority() {
@@ -14,7 +14,7 @@ public class GetNextChangeSetSequenceValueGeneratorCassandra extends GetNextChan
 
     @Override
     public boolean supports(GetNextChangeSetSequenceValueStatement statement, Database database) {
-        return super.supports(statement, database) && database instanceof CassandraDatabase;
+        return super.supports(statement, database) && database instanceof KeyspaceDatabase;
     }
 
 }

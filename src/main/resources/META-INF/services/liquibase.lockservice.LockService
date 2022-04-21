@@ -1,1 +1,1 @@
-liquibase.ext.keyspace.lockservice.LockServiceCassandra
+liquibase.ext.keyspace.lockservice.LockServiceKeyspace

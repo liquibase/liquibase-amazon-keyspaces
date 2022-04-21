@@ -1,13 +1,13 @@
 package liquibase.ext.keyspace.sqlgenerator;
 
 import liquibase.database.Database;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.sql.Sql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.CreateTableGenerator;
 import liquibase.statement.core.CreateTableStatement;
 
-public class CreateTableGeneratorCassandra extends CreateTableGenerator {
+public class CreateTableGeneratorKeyspace extends CreateTableGenerator {
 
     @Override
     public int getPriority() {
@@ -16,7 +16,7 @@ public class CreateTableGeneratorCassandra extends CreateTableGenerator {
 
     @Override
     public boolean supports(CreateTableStatement statement, Database database) {
-        return database instanceof CassandraDatabase;
+        return database instanceof KeyspaceDatabase;
     }
     @Override
     public Sql[] generateSql(CreateTableStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {

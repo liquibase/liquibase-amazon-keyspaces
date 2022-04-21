@@ -14,10 +14,10 @@ import liquibase.changelog.StandardChangeLogHistoryService;
 import liquibase.database.Database;
 import liquibase.exception.DatabaseException;
 import liquibase.executor.ExecutorService;
-import liquibase.ext.keyspace.database.CassandraDatabase;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
 import liquibase.statement.core.RawSqlStatement;
 
-public class CassandraChangeLogHistoryService extends StandardChangeLogHistoryService {
+public class KeyspaceChangeLogHistoryService extends StandardChangeLogHistoryService {
 
     @Override
     public int getPriority() {
@@ -26,12 +26,12 @@ public class CassandraChangeLogHistoryService extends StandardChangeLogHistorySe
 
     @Override
     public boolean supports(Database database) {
-        return database instanceof CassandraDatabase;
+        return database instanceof KeyspaceDatabase;
     }
 
     @Override
     public boolean hasDatabaseChangeLogTable() {
-        return ((CassandraDatabase)getDatabase()).hasDatabaseChangeLogLockTable();
+        return ((KeyspaceDatabase)getDatabase()).hasDatabaseChangeLogLockTable();
     }
 
 
@@ -39,7 +39,7 @@ public class CassandraChangeLogHistoryService extends StandardChangeLogHistorySe
     public int getNextSequenceValue() {
         int next = 0;
         try {
-            Statement statement = ((CassandraDatabase) getDatabase()).getStatement();
+            Statement statement = ((KeyspaceDatabase) getDatabase()).getStatement();
             ResultSet rs = statement.executeQuery("SELECT ID, AUTHOR, ORDEREXECUTED FROM " +
                     getDatabase().getDefaultCatalogName() + ".DATABASECHANGELOG");
             while (rs.next()) {
@@ -67,7 +67,7 @@ public class CassandraChangeLogHistoryService extends StandardChangeLogHistorySe
             while (DBCL_GET_TABLE_ACTIVE_ATTEMPS >= 0) {
 
                 try {
-                    Statement statement = ((CassandraDatabase) getDatabase()).getStatement();
+                    Statement statement = ((KeyspaceDatabase) getDatabase()).getStatement();
                     ResultSet rs = statement.executeQuery("SELECT keyspace_name, table_name, status FROM " +
                             "system_schema_mcs.tables WHERE keyspace_name = '" + getDatabase().getDefaultCatalogName() +
                             "' AND table_name = 'databasechangelog'");
