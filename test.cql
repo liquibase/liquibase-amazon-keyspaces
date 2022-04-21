@@ -1,3 +1,5 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
 CREATE KEYSPACE betterbotz
   WITH REPLICATION = { 
    'class' : 'SimpleStrategy', 
