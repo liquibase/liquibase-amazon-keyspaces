@@ -1,1 +1,1 @@
-liquibase.ext.cassandra.database.CassandraDatabase
+liquibase.ext.keyspace.database.CassandraDatabase
