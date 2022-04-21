@@ -188,7 +188,7 @@ public class LockServiceCassandra extends StandardLockService {
                             } while (rs.next());
                         }
                     }
-                } catch (InterruptedException | SQLException | ClassNotFoundException e) {
+                } catch (InterruptedException | SQLException |  DatabaseException e) {
                     throw new UnexpectedLiquibaseException(e);
                 }
                 //not AWS scenario

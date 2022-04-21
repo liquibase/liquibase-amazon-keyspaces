@@ -158,7 +158,7 @@ public class CassandraDatabase extends AbstractJdbcDatabase {
 							}
 
 						}
-					} catch (ClassNotFoundException | InterruptedException | SQLException e) {
+					} catch ( InterruptedException | SQLException e) {
 						throw new DatabaseException(e);
 					}
 

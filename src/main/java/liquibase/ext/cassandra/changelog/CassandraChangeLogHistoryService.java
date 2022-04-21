@@ -87,7 +87,7 @@ public class CassandraChangeLogHistoryService extends StandardChangeLogHistorySe
                         }
 
                     }
-                } catch (ClassNotFoundException | InterruptedException | SQLException e) {
+                } catch ( InterruptedException | SQLException e) {
                     throw new DatabaseException(e);
                 }
 
