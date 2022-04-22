@@ -1,0 +1,37 @@
+package liquibase.ext.keyspace.snapshot;
+
+import liquibase.database.Database;
+import liquibase.ext.keyspace.database.KeyspaceDatabase;
+import liquibase.snapshot.DatabaseSnapshot;
+import liquibase.snapshot.SnapshotGenerator;
+import liquibase.snapshot.jvm.UniqueConstraintSnapshotGenerator;
+import liquibase.structure.DatabaseObject;
+
+
+public class UniqueConstraintSnapshotGeneratorKeyspace extends UniqueConstraintSnapshotGenerator {
+
+    @Override
+    public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
+        if (database instanceof KeyspaceDatabase) {
+            int priority = super.getPriority(objectType, database);
+            return priority == 0 ? priority : priority + PRIORITY_DATABASE;
+        } else {
+            return PRIORITY_NONE;
+        }
+    }
+
+    @Override
+    public Class<? extends SnapshotGenerator>[] replaces() {
+        return new Class[]{UniqueConstraintSnapshotGenerator.class};
+
+    }
+
+    @Override
+    protected void addTo(DatabaseObject foundObject, DatabaseSnapshot snapshot) {
+    }
+
+    @Override
+    protected DatabaseObject snapshotObject(DatabaseObject example, DatabaseSnapshot snapshot) {
+        return null;
+    }
+}
