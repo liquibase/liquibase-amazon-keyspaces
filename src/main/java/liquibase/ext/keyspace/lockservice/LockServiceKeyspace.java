@@ -150,7 +150,7 @@ public class LockServiceKeyspace extends StandardLockService {
         }
     }
 
-    private boolean hasDatabaseChangeLogLockTable(boolean forceRecheck) {
+    protected boolean hasDatabaseChangeLogLockTable(boolean forceRecheck) {
         if (forceRecheck || hasKeyspaceChangeLogLockTable == null) {
             try {
                 // Does not work as it uses COUNT(*)
@@ -181,7 +181,7 @@ public class LockServiceKeyspace extends StandardLockService {
      * Determine whether the databasechangeloglock table has been initialized.
      * @param forceRecheck if true, do not use any cached information, and recheck the actual database
      */
-    private boolean isDatabaseChangeLogLockTableInitialized(final boolean tableJustCreated, final boolean forceRecheck) {
+    protected boolean isDatabaseChangeLogLockTableInitialized(final boolean tableJustCreated, final boolean forceRecheck) {
         if (!isDatabaseChangeLogLockTableInitialized || forceRecheck) {
             Executor executor = Scope.getCurrentScope().getSingleton(ExecutorService.class).getExecutor("jdbc", database);
 
