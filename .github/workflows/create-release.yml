@@ -78,7 +78,7 @@ jobs:
       - name: Configure git user
         run: |
           git config user.name "liquibase-workflows[bot]"
-          git config user.email "liquibot@liquibase.org"
+          git config user.email "1241802+liquibase-workflows[bot]@users.noreply.github.com"
 
       - name: Download and install liquibase.jar
         uses: dsaltares/fetch-gh-release-asset@master
@@ -232,7 +232,7 @@ jobs:
       - name: Configure git user
         run: |
           git config user.name "liquibase-workflows[bot]"
-          git config user.email "liquibot@liquibase.org"
+          git config user.email "1241802+liquibase-workflows[bot]@users.noreply.github.com"
 
       - name: Prepare code for next version
         run: |
